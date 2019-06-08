@@ -24,7 +24,7 @@ bot.onText(/\/start/, (msg, match) => {
         reply_to_message_id: msg.message_id,
         reply_markup: JSON.stringify({
             keyboard: [
-                ['deposit'],
+                ['receive'],
                 ['withdraw']
                 //     ['price'],
                 // ['height']
@@ -53,14 +53,14 @@ bot.onText(/height/i, (msg, match) => {
         .catch(error => bot.sendMessage(msg.chat.id, 'Not found'));
 });
 
-bot.onText(/deposit/i, (msg, match) => {
+bot.onText(/receive/i, (msg, match) => {
     const opts = {
         reply_markup: {
             inline_keyboard: [
                 [{
                         text: 'ETH',
                         callback_data: JSON.stringify({
-                            command: 'deposit',
+                            command: 'receive',
                             'base': 'BTC'
                         })
                     }
@@ -79,7 +79,7 @@ bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
         message_id: msg.message_id,
     };
 
-    if (data.command === 'deposit') {
+    if (data.command === 'receive') {
        let address = await functions.generateETHAddress(opts.chat_id);
        console.log(address);
        bot.sendMessage(opts.chat_id, `Minimum deposit is 0.005 ETH.\nAmounts below that can't be processed.`);
