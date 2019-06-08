@@ -20,6 +20,8 @@ bot.onText(/\/start/, (msg, match) => {
             keyboard: [
                 ['deposit'],
                 ['withdraw']
+                //     ['price'],
+                // ['height']
             ],
             'one_time_keyboard': true
         })
@@ -45,43 +47,15 @@ bot.onText(/height/i, (msg, match) => {
         .catch(error => bot.sendMessage(msg.chat.id, 'Not found'));
 });
 
-bot.onText(/price/i, (msg, match) => {
+bot.onText(/depsoit/i, (msg, match) => {
     const opts = {
         reply_markup: {
             inline_keyboard: [
                 [{
-                        text: 'BTC',
+                        text: 'ETH',
                         callback_data: JSON.stringify({
                             command: 'price',
                             'base': 'BTC'
-                        })
-                    },
-                    {
-                        text: 'USD',
-                        callback_data: JSON.stringify({
-                            command: 'price',
-                            'base': 'USD'
-                        })
-                    },
-                    {
-                        text: 'CNY',
-                        callback_data: JSON.stringify({
-                            command: 'price',
-                            'base': 'CNY'
-                        })
-                    },
-                    {
-                        text: 'EUR',
-                        callback_data: JSON.stringify({
-                            command: 'price',
-                            'base': 'EUR'
-                        })
-                    },
-                    {
-                        text: 'JPY',
-                        callback_data: JSON.stringify({
-                            command: 'price',
-                            'base': 'JPY'
                         })
                     }
                 ]
