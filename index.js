@@ -25,7 +25,8 @@ bot.onText(/\/start/, (msg, match) => {
         reply_markup: JSON.stringify({
             keyboard: [
                 ['receive'],
-                ['withdraw']
+                ['withdraw'],
+                ['Check-Balance']
                 //     ['price'],
                 // ['height']
             ],
@@ -46,13 +47,30 @@ bot.onText(/balance(?:.*) (M[A-Za-z0-9]{33})/i, (msg, match) => {
         .catch(error => bot.sendMessage(chatId, 'Not found'));
 });
 
-
-
-bot.onText(/height/i, (msg, match) => {
-    getHeight()
-        .then(height => bot.sendMessage(msg.chat.id, height))
-        .catch(error => bot.sendMessage(msg.chat.id, 'Not found'));
+bot.onText(/Check-Balance/i, (msg, match) => {
+    const opts = {
+        reply_markup: {
+            inline_keyboard: [
+                [{
+                    text: 'ETH',
+                    callback_data: JSON.stringify({
+                        command: '',
+                        'base': 'ETH'
+                    })
+                }
+                ]
+            ]
+        }
+    };
+    bot.sendMessage(msg.chat.id, 'Choose base currency', opts);
 });
+
+
+// bot.onText(/height/i, (msg, match) => {
+//     getHeight()
+//         .then(height => bot.sendMessage(msg.chat.id, height))
+//         .catch(error => bot.sendMessage(msg.chat.id, 'Not found'));
+// });
 
 bot.onText(/receive/i, (msg, match) => {
     const opts = {
@@ -62,7 +80,7 @@ bot.onText(/receive/i, (msg, match) => {
                         text: 'ETH',
                         callback_data: JSON.stringify({
                             command: 'receive',
-                            'base': 'BTC'
+                            'base': 'ETH'
                         })
                     }
                 ]
