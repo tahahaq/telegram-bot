@@ -10,7 +10,7 @@ const web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io
 
 exports.checkEthBalance = async (telegram_id) => {
   try {
-      let eth_address = db_read.ifEthAddressExist(telegram_id);
+      let eth_address = await db_read.ifEthAddressExist(telegram_id);
       if(eth_address){
           // let  balance = await web3.eth.getBalance(eth_address); //Will give value in.
           // balance = await web3.utils.toDecimal(balance);
