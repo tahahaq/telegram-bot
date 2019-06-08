@@ -3,6 +3,8 @@ var exports = module.exports = {},
 
 
 
+
+
 exports.ifEthAddressExist = async (telegram_id) => {
     try {
          let user =  await walletModel.findOne({telegram_id});

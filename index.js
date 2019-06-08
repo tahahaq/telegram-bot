@@ -54,7 +54,7 @@ bot.onText(/Check-Balance/i, (msg, match) => {
                 [{
                     text: 'ETH',
                     callback_data: JSON.stringify({
-                        command: '',
+                        command: 'balance',
                         'base': 'ETH'
                     })
                 }
@@ -97,6 +97,16 @@ bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
         chat_id: msg.chat.id,
         message_id: msg.message_id,
     };
+
+
+    if (data.command === 'balance') {
+       if(data.base === 'ETH'){
+            let balance = await functions.checkEthBalance(opts.chat_id);
+           bot.sendMessage(opts.chat_id, `Total value of your account:`);
+           bot.sendMessage(opts.chat_id, `${balance} ETH`);
+           bot.answerCallbackQuery(callbackQuery.id);
+       }
+    }
 
     if (data.command === 'receive') {
        let address = await functions.generateETHAddress(opts.chat_id);
