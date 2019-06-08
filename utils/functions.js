@@ -15,10 +15,12 @@ exports.checkEthBalance = async (telegram_id) => {
           // let  balance = await web3.eth.getBalance(eth_address); //Will give value in.
           // balance = await web3.utils.toDecimal(balance);
           // console.log(balance);
-          let balance = await web3.eth.getBalance(eth_address);
-          console.log(balance)
 
-          return balance;
+          let balance = await web3.eth.getBalance(eth_address);
+          let etherBalance = await web3.utils.fromWei(balance  , 'ether');
+          console.log(etherBalance)
+
+          return etherBalance;
       }
       return eth_address;
 
