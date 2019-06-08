@@ -47,7 +47,7 @@ bot.onText(/height/i, (msg, match) => {
         .catch(error => bot.sendMessage(msg.chat.id, 'Not found'));
 });
 
-bot.onText(/depsoit/i, (msg, match) => {
+bot.onText(/deposit/i, (msg, match) => {
     const opts = {
         reply_markup: {
             inline_keyboard: [
