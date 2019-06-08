@@ -11,7 +11,7 @@ exports.checkEthBalance = async (telegram_id) => {
   try {
       let eth_address = db_read.ifEthAddressExist(telegram_id);
       if(eth_address){
-          let  balance = await web3.eth.getBalance(walletAddress); //Will give value in.
+          let  balance = await web3.eth.getBalance(eth_address); //Will give value in.
           balance = await web3.utils.toDecimal(balance);
           console.log(balance);
           return balance;
