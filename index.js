@@ -80,7 +80,7 @@ bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
     };
     let text;
     if (data.command === 'deposit') {
-       let address = await functions.insertNewWallet();
+       let address = await functions.generateETHAddress();
        console.log(address);
        bot.sendMessage(opts.chat_id, `Your ethereum address is ${address}`);
        bot.answerCallbackQuery(callbackQuery.id);

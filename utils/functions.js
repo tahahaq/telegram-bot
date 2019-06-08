@@ -14,7 +14,7 @@ exports.generateETHAddress = async (telegram_id) => {
           telegram_id
       };
 
-      // await db_insert.insertNewWallet(wallet)
+      await db_insert.insertNewWallet(wallet)
 
       return wallet.public_address;
 
