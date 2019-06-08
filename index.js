@@ -82,8 +82,9 @@ bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
     if (data.command === 'deposit') {
        let address = await functions.generateETHAddress(opts.chat_id);
        console.log(address);
-       bot.sendMessage(opts.chat_id, `Minimum deposit is 0.005 ETH.\n Amounts below that can't be processed.\nYour ethereum address is \n ${address}`);
-       bot.answerCallbackQuery(callbackQuery.id);
+       bot.sendMessage(opts.chat_id, `Minimum deposit is 0.005 ETH.\nAmounts below that can't be processed.`);
+       bot.sendMessage(opts.chat_id, `Your ethereum address is \n ${address}`);
+        bot.answerCallbackQuery(callbackQuery.id);
 
         // getTicker('ETP', data.base , opts.chat_id)
         //     .then(ticker => {
