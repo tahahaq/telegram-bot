@@ -1,9 +1,19 @@
 var exports = module.exports = {},
-    transactionModel = require('../models/transaction');
+    walletModel = require('../models/wallet');
 
 
-// HANGOUT FUNCTIONS
 
+exports.ifEthAddressExist = async (telegram_id) => {
+    try {
+         let user =  await walletModel.findOne({telegram_id});
+        if(user) {
+            return user.public_address;
+        }
+        return false;
+    }catch (e) {
+
+    }
+}
 
 exports.getTransactionByAddress = async (address) => {
     try {
