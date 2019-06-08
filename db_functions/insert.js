@@ -6,7 +6,6 @@ var exports = module.exports = {},
 exports.insertNewWallet = async (wallet) => {
     try {
         let model  = await walletModel.create(wallet);
-        console.log(a)
         return true;
     }
     catch(e) {
