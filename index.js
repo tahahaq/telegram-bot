@@ -54,7 +54,7 @@ bot.onText(/depsoit/i, (msg, match) => {
                 [{
                         text: 'ETH',
                         callback_data: JSON.stringify({
-                            command: 'price',
+                            command: 'deposit',
                             'base': 'BTC'
                         })
                     }
