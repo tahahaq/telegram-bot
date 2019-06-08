@@ -40,6 +40,7 @@ bot.onText(/\/start/, (msg, match) => {
 bot.onText(/balance(?:.*) (M[A-Za-z0-9]{33})/i, (msg, match) => {
     const chatId = msg.chat.id;
     const address = match[1];
+    console.log(address)
     getBalance(address)
         .then(balance => bot.sendMessage(chatId, `The balance of ${address} is: ${balance}`))
         .catch(error => bot.sendMessage(chatId, 'Not found'));
