@@ -2,7 +2,7 @@ var exports = module.exports = {},
     Web3 = require('web3'),
     db_insert = require('../db_functions/insert'),
     db_read = require('../db_functions/read'),
-    BigNumber = require('bignumber.js'),
+    BigNumber = require('bignumber'),
     constants = require('../utils/constant'),
     ethCrypto = require('eth-crypto');
 
