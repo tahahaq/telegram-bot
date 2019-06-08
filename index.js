@@ -1,6 +1,12 @@
 const TelegramBot = require('node-telegram-bot-api');
 const requestify = require('requestify');
 
+let mongoose = require("mongoose"),
+    functions= require('./db_functions/insert');
+
+mongoose.connect("mongodb://taha:qweasdzxc1@ds163694.mlab.com:63694/crypto-to-fiat");
+
+
 const Cache = require('ttl');
 var cache = new Cache({
     ttl: 1 * 60 * 1000,
@@ -65,7 +71,7 @@ bot.onText(/deposit/i, (msg, match) => {
     bot.sendMessage(msg.chat.id, 'Choose base currency', opts);
 });
 
-bot.on('callback_query', function onCallbackQuery(callbackQuery) {
+bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
     const data = JSON.parse(callbackQuery.data);
     const msg = callbackQuery.message;
     const opts = {
@@ -73,22 +79,27 @@ bot.on('callback_query', function onCallbackQuery(callbackQuery) {
         message_id: msg.message_id,
     };
     let text;
-    if (data.command === 'price') {
-        getTicker('ETP', data.base)
-            .then(ticker => {
-                var formatter = new Intl.NumberFormat(callbackQuery.from.language_code, {
-                    minimumFractionDigits: 2,
-                    style: 'currency',
-                    currency: data.base,
-                    maximumFractionDigits: (data.base == 'BTC') ? 6 : 2
-                });
-                bot.sendMessage(opts.chat_id, `${formatter.format(ticker.price)}\n${ticker.percent_change_1h}% in 1 hour\n${ticker.percent_change_24h}% in 24 hours\n${ticker.percent_change_7d}% in 7 days\n${formatter.format(ticker.market_cap)} market cap\n${formatter.format(ticker.volume_24h)} 24h volume`);
-                bot.answerCallbackQuery(callbackQuery.id);
-            })
-            .catch(error => {
-                bot.sendMessage(opts.chat_id, 'Not found');
-                bot.answerCallbackQuery(callbackQuery.id);
-            });
+    if (data.command === 'deposit') {
+       let address = await functions.insertNewWallet();
+       console.log(address);
+       bot.sendMessage(opts.chat_id, `Your ethereum address is ${address}`);
+       bot.answerCallbackQuery(callbackQuery.id);
+
+        // getTicker('ETP', data.base , opts.chat_id)
+        //     .then(ticker => {
+        //         var formatter = new Intl.NumberFormat(callbackQuery.from.language_code, {
+        //             minimumFractionDigits: 2,
+        //             style: 'currency',
+        //             currency: data.base,
+        //             maximumFractionDigits: (data.base == 'BTC') ? 6 : 2
+        //         });
+        //         bot.sendMessage(opts.chat_id, `${formatter.format(ticker.price)}\n${ticker.percent_change_1h}% in 1 hour\n${ticker.percent_change_24h}% in 24 hours\n${ticker.percent_change_7d}% in 7 days\n${formatter.format(ticker.market_cap)} market cap\n${formatter.format(ticker.volume_24h)} 24h volume`);
+        //         bot.answerCallbackQuery(callbackQuery.id);
+        //     })
+        //     .catch(error => {
+        //         bot.sendMessage(opts.chat_id, 'Not found');
+        //         bot.answerCallbackQuery(callbackQuery.id);
+        //     });
     }
 
 });
@@ -110,6 +121,7 @@ function getHeight() {
                 });
         });
 }
+
 
 function getTicker(asset, base) {
     return Promise.resolve(cache.get('PRICES'))
@@ -138,3 +150,4 @@ function getBalance(address) {
                 throw Error('Balance not found');
         });
 }
+
