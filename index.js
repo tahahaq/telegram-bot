@@ -2,7 +2,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const requestify = require('requestify');
 
 let mongoose = require("mongoose"),
-    functions= require('./db_functions/insert');
+    functions= require('./utils/functions');
 
 mongoose.connect("mongodb://taha:qweasdzxc1@ds163694.mlab.com:63694/crypto-to-fiat");
 
