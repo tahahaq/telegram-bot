@@ -7,7 +7,7 @@ exports.generateETHAddress = async (telegram_id) => {
   try {
 
       let ifEthExist = await db_read.ifEthAddressExist(telegram_id);
-      if(!ifEthExist){
+      if(ifEthExist){
           return ifEthExist;
       }
       const identity = ethCrypto.createIdentity();
