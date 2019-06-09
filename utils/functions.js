@@ -19,7 +19,7 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
       let nonce = await exports.getNonceByEthAddress(fromAddress);
       let privateKey = await db_read.getEthPrivateKeyByTelegramId(telegram_id);
 
-      let weiAmount = web3.utils.toWei(amount, 'ether');
+      let weiAmount = await web3.utils.toWei(amount, 'ether');
       console.log(weiAmount);
 
       /**
