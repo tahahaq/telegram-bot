@@ -19,16 +19,13 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
       let nonce = await exports.getNonceByEthAddress(fromAddress);
       let privateKey = await db_read.getEthPrivateKeyByTelegramId(telegram_id);
 
-      console.log("here i'm")
-      let weiAmount = await web3.utils.toWei(amount, 'ether');
-      console.log(weiAmount);
 
       /**
        * Build a new transaction object and sign it locally.
        */
       let details = {
           "to": to_address,
-          "value": web3.utils.toWei(amount, 'ether'),
+          "value": amount * 1000000000000000000,
           "gas": 21000,
           "gasPrice": gasPrices.low * 1000000000, // converts the gwei price to wei
           "nonce": nonce,
