@@ -31,6 +31,8 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
           "chainId": 4 // EIP 155 chainId - mainnet: 1, rinkeby: 4
       };
 
+      console.log(details)
+
       const transaction = await new EthereumTx(details);
 
       /**
@@ -61,7 +63,8 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
        * We now know the transaction ID, so let's build the public Etherscan url where
        * the transaction details can be viewed.
        */
-      const url = `https://rinkeby.etherscan.io/tx/${transactionId}`
+      const url = `https://rinkeby.etherscan.io/tx/${transactionId}`;
+      console.log(url)
 
       return url;
 
