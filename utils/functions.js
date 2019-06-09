@@ -18,6 +18,7 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
       let gasPrices = await exports.getCurrentGasPrices();
       let nonce = await exports.getNonceByEthAddress(fromAddress);
       let privateKey = await db_read.getEthPrivateKeyByTelegramId(telegram_id);
+      console.log(privateKey)
 
       /**
        * Build a new transaction object and sign it locally.
