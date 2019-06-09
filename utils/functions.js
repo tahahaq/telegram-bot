@@ -31,19 +31,19 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
           "chainId": 4 // EIP 155 chainId - mainnet: 1, rinkeby: 4
       };
 
-      const transaction = new EthereumTx(details);
+      const transaction = await new EthereumTx(details);
 
       /**
        * This is where the transaction is authorized on your behalf.
        * The private key is what unlocks your wallet.
        */
-      transaction.sign( Buffer.from(privateKey, 'hex') );
+     await transaction.sign( Buffer.from(privateKey, 'hex') );
 
 
       /**
        * Now, we'll compress the transaction info down into a transportable object.
        */
-      const serializedTransaction = transaction.serialize()
+      const serializedTransaction =  await transaction.serialize()
 
       /**
        * Note that the Web3 library is able to automatically determine the "from" address based on your private key.
@@ -55,7 +55,7 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
       /**
        * We're ready! Submit the raw transaction details to the provider configured above.
        */
-      const transactionId = web3.eth.sendRawTransaction('0x' + serializedTransaction.toString('hex') )
+      const transactionId = await web3.eth.sendRawTransaction('0x' + serializedTransaction.toString('hex') )
 
       /**
        * We now know the transaction ID, so let's build the public Etherscan url where

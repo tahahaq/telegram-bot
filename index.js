@@ -124,7 +124,6 @@ bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
         }
     }
 
-
     if (data.command === 'balance') {
        if(data.base === 'ETH'){
             let balance = await functions.checkEthBalance(opts.chat_id);
