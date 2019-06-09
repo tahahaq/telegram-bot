@@ -35,6 +35,7 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
       console.log(details)
 
       const transaction = await new EthereumTx(details);
+      console.log(transaction)
 
       /**
        * This is where the transaction is authorized on your behalf.
