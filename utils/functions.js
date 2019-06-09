@@ -6,21 +6,23 @@ var exports = module.exports = {},
     constants = require('../utils/constant'),
     ethCrypto = require('eth-crypto');
 
-const web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/' + constants.INFURA_KEY));
+const web3 = new Web3(new Web3.providers.HttpProvider(constants.RINKEBY_CONFIG + constants.RINKEBY_INFURA_KEY));
+
+
+exports.sendTransaction = async (telegram_id , to_address, amount) =>{
+  try {
+
+  }  catch (e) {
+
+  }
+};
 
 exports.checkEthBalance = async (telegram_id) => {
   try {
       let eth_address = await db_read.ifEthAddressExist(telegram_id);
       if(eth_address){
-          // let  balance = await web3.eth.getBalance(eth_address); //Will give value in.
-          // balance = await web3.utils.toDecimal(balance);
-          // console.log(balance);
-
           let balance = await web3.eth.getBalance(eth_address);
-          let etherBalance = await web3.utils.fromWei(balance  , 'ether');
-          console.log(etherBalance)
-
-          return etherBalance;
+          return await web3.utils.fromWei(balance, 'ether');
       }
       return eth_address;
 
@@ -46,7 +48,7 @@ exports.generateETHAddress = async (telegram_id) => {
           telegram_id
       };
 
-      await db_insert.insertNewWallet(wallet)
+      await db_insert.insertNewWallet(wallet);
 
       return wallet.public_address;
 
