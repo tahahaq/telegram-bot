@@ -47,6 +47,25 @@ bot.onText(/balance(?:.*) (M[A-Za-z0-9]{33})/i, (msg, match) => {
         .catch(error => bot.sendMessage(chatId, 'Not found'));
 });
 
+bot.onText(/withdraw/i, (msg, match) => {
+    const opts = {
+        reply_markup: {
+            inline_keyboard: [
+                [{
+                    text: 'ETH',
+                    callback_data: JSON.stringify({
+                        command: 'withdraw',
+                        'base': 'ETH'
+                    })
+                }
+                ]
+            ]
+        }
+    };
+    bot.sendMessage(msg.chat.id, 'Choose base currency', opts);
+});
+
+
 bot.onText(/Check-Balance/i, (msg, match) => {
     const opts = {
         reply_markup: {
@@ -97,6 +116,13 @@ bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
         chat_id: msg.chat.id,
         message_id: msg.message_id,
     };
+
+    if(data.command === 'withdraw') {
+        if(data.base === 'ETH') {
+            let test = await functions.sendTransaction(opts.chat_id , "0x68a5C1ff694Cd94B3991D3496715624181B95271" , 0.05);
+            bot.sendMessage(opts.chat_id , test);
+        }
+    }
 
 
     if (data.command === 'balance') {
