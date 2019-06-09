@@ -115,7 +115,7 @@ exports.getCurrentGasPrices = async () => {
 exports.getNonceByEthAddress = async (eth_address) => {
   try {
 
-      let nonce = web3.eth.getTransactionCount(eth_address);
+      let nonce =await web3.eth.getTransactionCount(eth_address);
       console.log(`The outgoing transaction count for your wallet address is: ${nonce}`);
       return nonce;
 
