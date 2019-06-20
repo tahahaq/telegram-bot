@@ -30,6 +30,7 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
           "chainId": 4 // EIP 155 chainId - mainnet: 1, rinkeby: 4
       };
 
+      console.log(rawTransaction)
     let transactionHash ;
       await  web3.eth.accounts.signTransaction(rawTransaction, privateKey).then(signed => {
           web3.eth.sendSignedTransaction(signed.rawTransaction)
