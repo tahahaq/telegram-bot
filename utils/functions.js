@@ -27,7 +27,7 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
           "to": to_address,
           "value": amount * 1000000000000000000,
           "gas": 21000,
-          "gasPrice": gasPrices.low * 1000000000, // converts the gwei price to wei
+          "gasPrice": gasPrices.medium * 1000000000, // converts the gwei price to wei
           "nonce": nonce,
           "chainId": 4 // EIP 155 chainId - mainnet: 1, rinkeby: 4
       };
