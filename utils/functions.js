@@ -31,7 +31,7 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
       };
 
     let transactionHash ;
-      await   web3.eth.accounts.signTransaction(rawTransaction, privateKey).then(signed => {
+      await  web3.eth.accounts.signTransaction(rawTransaction, privateKey).then(signed => {
           web3.eth.sendSignedTransaction(signed.rawTransaction)
               .on('confirmation', (confirmationNumber, receipt) => {
                   if (confirmationNumber == 1) {
@@ -46,10 +46,10 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
               });
       });
 
-      const url = `https://rinkeby.etherscan.io/tx/${transactionHash}`;
+      const url = `https://rinkeby.etherscan.io/tx/${await transactionHash}`;
       console.log(url)
 
-      return url;
+      return await url;
 
 
   }  catch (e) {
