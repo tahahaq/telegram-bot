@@ -32,8 +32,8 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
 
       console.log(rawTransaction)
     let transactionHash ;
-      await  web3.eth.accounts.signTransaction(rawTransaction, privateKey).then(signed => {
-          web3.eth.sendSignedTransaction(signed.rawTransaction)
+      await  web3.eth.accounts.signTransaction(rawTransaction, privateKey).then(async signed => {
+         await web3.eth.sendSignedTransaction(signed.rawTransaction)
               .on('confirmation', (confirmationNumber, receipt) => {
                   if (confirmationNumber == 1) {
                       console.log(receipt)
@@ -43,11 +43,11 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
                   console.log(error)
               })
               .on('transactionHash',async(hash) => {
-                  console.log(hash)
+                  transactionHash = hash
               });
       });
 
-      return "hello"
+      return  await transactionHash
 
 
 
