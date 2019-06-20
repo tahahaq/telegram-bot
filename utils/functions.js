@@ -42,14 +42,9 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
                   console.log(error)
               })
               .on('transactionHash',async(hash) => {
-                  transactionHash = hash;
+                  return hash
               });
       });
-
-      const url = `https://rinkeby.etherscan.io/tx/${await transactionHash}`;
-      console.log(url)
-
-      return await url;
 
 
   }  catch (e) {
