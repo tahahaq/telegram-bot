@@ -10,7 +10,6 @@ var exports = module.exports = {},
 
 const web3 = new Web3(new Web3.providers.HttpProvider(constants.RINKEBY_CONFIG + constants.RINKEBY_INFURA_KEY));
 
-
 exports.sendTransaction = async (telegram_id , to_address, amount) =>{
   try {
 
@@ -18,7 +17,6 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
       let gasPrices = await exports.getCurrentGasPrices();
       let nonce = await exports.getNonceByEthAddress(fromAddress);
       let privateKey = await db_read.getEthPrivateKeyByTelegramId(telegram_id);
-
 
       /**
        * Build a new transaction object and sign it locally.
@@ -32,8 +30,7 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
           "chainId": 4 // EIP 155 chainId - mainnet: 1, rinkeby: 4
       };
 
-      console.log("here too")
-
+    let transactionHash ;
       await   web3.eth.accounts.signTransaction(rawTransaction, privateKey).then(signed => {
           web3.eth.sendSignedTransaction(signed.rawTransaction)
               .on('confirmation', (confirmationNumber, receipt) => {
@@ -45,12 +42,11 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
                   console.log(error)
               })
               .on('transactionHash',async(hash) => {
-                  console.log(hash)
+                  transactionHash = hash;
               });
       });
 
-
-      const url = `https://rinkeby.etherscan.io/tx/${transactionId}`;
+      const url = `https://rinkeby.etherscan.io/tx/${transactionHash}`;
       console.log(url)
 
       return url;
