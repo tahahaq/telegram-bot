@@ -48,8 +48,6 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
               });
       });
 
-      return  await transactionHash
-
 
 
   }  catch (e) {
