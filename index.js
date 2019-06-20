@@ -120,7 +120,7 @@ bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
     if (data.command === 'withdraw') {
         console.log("in withdraw");
         if (data.base === 'ETH') {
-            let test = functions.sendTransaction(opts.chat_id, "0x68a5C1ff694Cd94B3991D3496715624181B95271", 0.05).then((response) => {
+            await functions.sendTransaction(opts.chat_id, "0x68a5C1ff694Cd94B3991D3496715624181B95271", 0.05).then((response) => {
                bot.sendMessage(opts.chat_id, `Just some text ${response}`);
               bot.answerCallbackQuery(callbackQuery.id);
             })
