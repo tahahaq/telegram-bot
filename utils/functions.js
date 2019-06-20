@@ -44,9 +44,12 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
               })
               .on('transactionHash',async(hash) => {
                   console.log(hash)
-                  return hash.toString()
               });
       });
+
+      return "hello"
+
+
 
   }  catch (e) {
 
