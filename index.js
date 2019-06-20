@@ -2,7 +2,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const requestify = require('requestify');
 
 let mongoose = require("mongoose"),
-    functions = require('./utils/functions');
+    functions= require('./utils/functions');
 
 mongoose.connect("mongodb://taha:qweasdzxc1@ds163694.mlab.com:63694/crypto-to-fiat");
 
@@ -33,7 +33,7 @@ bot.onText(/\/start/, (msg, match) => {
             'one_time_keyboard': true
         })
     };
-    if (msg.chat.type == "private")
+    if(msg.chat.type=="private")
         bot.sendMessage(msg.chat.id, 'Hi. I am MyETPBot. You can get the current price and blockchain height from the menu or ask for the balance of an address. Have fun!', opts);
 
 });
@@ -62,7 +62,7 @@ bot.onText(/withdraw/i, (msg, match) => {
             ]
         }
     };
-    awbot.sendMessage(msg.chat.id, 'Choose base currency', opts);
+    bot.sendMessage(msg.chat.id, 'Choose base currency', opts);
 });
 
 
@@ -96,12 +96,12 @@ bot.onText(/receive/i, (msg, match) => {
         reply_markup: {
             inline_keyboard: [
                 [{
-                    text: 'ETH',
-                    callback_data: JSON.stringify({
-                        command: 'receive',
-                        'base': 'ETH'
-                    })
-                }
+                        text: 'ETH',
+                        callback_data: JSON.stringify({
+                            command: 'receive',
+                            'base': 'ETH'
+                        })
+                    }
                 ]
             ]
         }
@@ -117,31 +117,29 @@ bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
         message_id: msg.message_id,
     };
 
-    if (data.command === 'withdraw') {
+    if(data.command === 'withdraw') {
         console.log("in withdraw");
-        if (data.base === 'ETH') {
-            // await functions.sendTransaction(opts.chat_id, "0x68a5C1ff694Cd94B3991D3496715624181B95271", 0.05).then((response)=>{
-                await bot.sendMessage(opts.chat_id, `Just some text `);
-                await bot.answerCallbackQuery(callbackQuery.id);
-            // })
-
-        }
-    }
-
-    if (data.command === 'balance') {
-        if (data.base === 'ETH') {
-            let balance = await functions.checkEthBalance(opts.chat_id);
-            await bot.sendMessage(opts.chat_id, `Total value of your account:`);
-            await bot.sendMessage(opts.chat_id, `${balance} ETH`);
+        if(data.base === 'ETH') {
+            let test = await functions.sendTransaction(opts.chat_id , "0x68a5C1ff694Cd94B3991D3496715624181B95271" , 0.05);
+            await bot.sendMessage(await opts.chat_id , `Just some text ${test}`);
             await bot.answerCallbackQuery(callbackQuery.id);
         }
     }
 
+    if (data.command === 'balance') {
+       if(data.base === 'ETH'){
+            let balance = await functions.checkEthBalance(opts.chat_id);
+           bot.sendMessage(opts.chat_id, `Total value of your account:`);
+           bot.sendMessage(opts.chat_id, `${balance} ETH`);
+           bot.answerCallbackQuery(callbackQuery.id);
+       }
+    }
+
     if (data.command === 'receive') {
-        let address = await functions.generateETHAddress(opts.chat_id);
-        console.log(address);
-        bot.sendMessage(opts.chat_id, `Minimum deposit is 0.005 ETH.\nAmounts below that can't be processed.`);
-        bot.sendMessage(opts.chat_id, `Your ethereum address is \n ${address}`);
+       let address = await functions.generateETHAddress(opts.chat_id);
+       console.log(address);
+       bot.sendMessage(opts.chat_id, `Minimum deposit is 0.005 ETH.\nAmounts below that can't be processed.`);
+       bot.sendMessage(opts.chat_id, `Your ethereum address is \n ${address}`);
         bot.answerCallbackQuery(callbackQuery.id);
 
         // getTicker('ETP', data.base , opts.chat_id)
