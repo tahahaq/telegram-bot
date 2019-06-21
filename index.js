@@ -121,12 +121,12 @@ bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
         console.log("in withdraw");
         if(data.base === 'ETH') {
             functions.sendTransaction(opts.chat_id, "0x68a5C1ff694Cd94B3991D3496715624181B95271", 0.05, (hash) => {
-                console.log("B" + hash)
+                 bot.sendMessage(opts.chat_id, `Your tranaction hash is ${hash} `);
+                 bot.answerCallbackQuery(callbackQuery.id);
             })
 
             //     .then(async (response)=>{
-            // await bot.sendMessage(opts.chat_id, `Just some text${response} `);
-            // await bot.answerCallbackQuery(callbackQuery.id);
+
             // })
             //
             // let test = await functions.sendTransaction(opts.chat_id , "0x68a5C1ff694Cd94B3991D3496715624181B95271" , 0.05);
