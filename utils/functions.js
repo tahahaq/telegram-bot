@@ -10,7 +10,7 @@ var exports = module.exports = {},
 
 const web3 = new Web3(new Web3.providers.HttpProvider(constants.RINKEBY_CONFIG + constants.RINKEBY_INFURA_KEY));
 
-exports.sendTransaction = async (telegram_id , to_address, amount) =>{
+exports.sendTransaction = async (telegram_id , to_address, amount, callback) =>{
   try {
 
       let fromAddress = await db_read.ifEthAddressExist(telegram_id);
@@ -21,6 +21,7 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
       /**
        * Build a new transaction object and sign it locally.
        */
+
       let rawTransaction = {
           "to": to_address,
           "value": amount * 1000000000000000000,
@@ -30,12 +31,13 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
           "chainId": 4 // EIP 155 chainId - mainnet: 1, rinkeby: 4
       };
 
-      console.log(rawTransaction)
-    let transactionHash ;
+
+      console.log(rawTransaction);
+
       await  web3.eth.accounts.signTransaction(rawTransaction, privateKey).then(async signed => {
          await web3.eth.sendSignedTransaction(signed.rawTransaction)
               .on('confirmation', (confirmationNumber, receipt) => {
-                  if (confirmationNumber == 1) {
+                  if (confirmationNumber === 1) {
                       console.log(receipt)
                   }
               })
@@ -43,10 +45,11 @@ exports.sendTransaction = async (telegram_id , to_address, amount) =>{
                   console.log(error)
               })
               .on('transactionHash',async(hash) => {
-                  console.log(hash)
-                  return hash
+                  console.log(hash);
+                  callback(hash)
               });
       });
+
 
 
 
