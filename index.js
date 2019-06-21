@@ -121,7 +121,7 @@ bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
         console.log("in withdraw");
         if(data.base === 'ETH') {
             functions.sendTransaction(opts.chat_id, "0x68a5C1ff694Cd94B3991D3496715624181B95271", 0.05, (hash) => {
-                 bot.sendMessage(opts.chat_id, `Your tranaction hash is ${hash} `);
+                 bot.sendMessage(opts.chat_id, `Your tranaction hash is confirmed \n http://https://rinkeby.etherscan.io/${hash} `);
                  bot.answerCallbackQuery(callbackQuery.id);
             })
 
